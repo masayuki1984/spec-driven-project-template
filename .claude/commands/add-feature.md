@@ -3,7 +3,7 @@
 新機能を仕様駆動で実装する 7 ステップのワークフロー。
 
 **使い方**: `/add-feature [機能名]`  
-**例**: `/add-feature historical-data-collection`
+**例**: `/add-feature user-authentication`
 
 ---
 
@@ -26,14 +26,15 @@
 
 以下を順番に読む（スキップ禁止）:
 
-1. `CLAUDE.md` — プロジェクト全体の制約・規約
+1. `CLAUDE.md` — プロジェクト全体の制約・規約・ディレクトリ構造
 2. `docs/` 以下の永続ドキュメント — 関連する仕様・設計
 3. 実装対象に関連する既存コードを grep で調査する
 
 ```bash
-# 例: 過去データ収集の場合
-grep -r "ohlcv" Application/ --include="*.py" -l
-grep -r "s3_handle" Application/ --include="*.py" -l
+# 機能名・関連キーワードで既存コードを調査する
+# （キーワードは CLAUDE.md のモジュール構成を参考に決める）
+grep -r "[feature-keyword]" {SRC_DIR}/ -l
+grep -r "[related-module]" {SRC_DIR}/ -l
 ```
 
 ---
@@ -61,12 +62,13 @@ grep -r "s3_handle" Application/ --include="*.py" -l
 
 ## ステップ 5: テスト実行
 
-```bash
-# pytest 実行
-cd /path/to/project && python -m pytest Test/ -v
+CLAUDE.md に記載されているテストコマンドを実行する。
 
-# 型チェック（mypy が設定されている場合）
-# mypy Application/
+```bash
+# CLAUDE.md の {TEST_COMMAND} を参照して実行する
+# ex: python -m pytest -v
+# ex: npm test
+# ex: go test ./...
 ```
 
 テストが失敗した場合は修正して再実行。全通過まで次のステップに進まない。
@@ -75,11 +77,13 @@ cd /path/to/project && python -m pytest Test/ -v
 
 ## ステップ 6: 動作確認
 
-実際にコードを動かして動作を確認する:
+実際にコードを動かして動作を確認する。
 
 ```bash
-# 例: データ収集スクリプトの場合
-python Application/DataCollection/collect.py --exchange bitbank --symbol BTC_JPY --timeframe 1h --dry-run
+# CLAUDE.md のディレクトリ構造・エントリポイントを参照して実行する
+# ex: python {SRC_DIR}/[entry_point].py --dry-run
+# ex: npm run dev
+# ex: go run ./cmd/[app]/
 ```
 
 ---
