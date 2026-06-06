@@ -144,7 +144,7 @@ ex:
 
 ```
 docs/
-├── prd.md                     # プロダクト要件定義書（何を・なぜ作るか）
+├── product-requirements.md    # プロダクト要件定義書（何を・なぜ作るか）
 ├── architecture.md            # システム設計・モジュール構成
 ├── development-guidelines.md  # コーディング規約・レビュー基準
 ├── api-spec.md                # API 仕様（外部 I/F がある場合）
